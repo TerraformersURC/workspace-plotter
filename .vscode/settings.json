@@ -1,0 +1,15 @@
+{
+    "editor.rulers": [
+      {"column": 80}
+    ],
+    "editor.tabSize": 2,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "cmake.configureOnOpen": false,
+    "files.associations": {
+      "deque": "cpp",
+      "string": "cpp",
+      "vector": "cpp",
+      "core": "cpp"
+    }
+  }
