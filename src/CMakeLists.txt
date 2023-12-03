@@ -5,7 +5,7 @@ add_executable(workspace-plotter
 
 find_package(yaml-cpp REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(orocos-kdl REQUIRED)
+find_package(orocos_kdl REQUIRED)
 
 target_include_directories(workspace-plotter PUBLIC
   ${CMAKE_SOURCE_DIR}/include
