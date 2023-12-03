@@ -5,6 +5,7 @@
 #include <yaml-cpp/yaml.h>
 #include <kdl/chain.hpp>
 #include <kdl/chainfksolverpos_recursive.hpp>
+#include <kdl/frames_io.hpp>
 
 namespace wspltr
 {
