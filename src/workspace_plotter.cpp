@@ -47,12 +47,19 @@ KDL::Chain wspltr::parseYAML(char *yaml_filename)
   return parsed_chain;
 }
 
-KDL::Frame wspltr::getCartesianPose(const KDL::Chain &arm_chain, KDL::JntArray &joint_values)
+KDL::Frame wspltr::getCartesianPose(KDL::Chain &arm_chain, KDL::JntArray &joint_values)
 {
   KDL::ChainFkSolverPos_recursive forward_solver(arm_chain);
 
   KDL::Frame cartesian_pose;
-  forward_solver.JntToCart(joint_values, cartesian_pose, arm_chain.getNrOfSegments());
+
+  int fk_status {0};
+
+  fk_status = forward_solver.JntToCart(joint_values, cartesian_pose, arm_chain.getNrOfSegments());
+
+  (fk_status >= 0) ?
+    std::cout << "FK success" << std::endl
+    : std::cout << "FK fail" << std::endl;
 
   return cartesian_pose;
 }
