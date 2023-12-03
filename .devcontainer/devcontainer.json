@@ -14,6 +14,7 @@
 		// "--device=/dev/dri"
 	],
 	"containerEnv": {
+		"WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
 		"DISPLAY": "${localEnv:DISPLAY}", // Needed for GUI try ":0" for windows
 		"XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
 		"PULSE_SERVER": "${localEnv:PULSE_SERVER}",
