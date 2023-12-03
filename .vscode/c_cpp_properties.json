@@ -6,7 +6,7 @@
                 "/usr/include/**",
                 "/usr/include/eigen3/**",
                 "/usr/local/include/**",
-                "/home/terraformer-dev/workspace-plotter/**"
+                "/home/terraformer-dev/workspace-plotter/include/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
