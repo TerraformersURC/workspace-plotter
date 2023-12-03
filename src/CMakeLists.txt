@@ -9,11 +9,11 @@ find_package(orocos_kdl REQUIRED)
 
 target_include_directories(workspace-plotter PUBLIC
   ${CMAKE_SOURCE_DIR}/include
+  ${EIGEN3_INCLUDE_DIRS}
 )
 
 target_link_libraries(workspace-plotter PUBLIC
   # list of libraries
   yaml-cpp::yaml-cpp
-  Eigen3
   orocos-kdl
 )
