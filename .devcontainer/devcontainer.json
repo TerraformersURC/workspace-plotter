@@ -1,7 +1,7 @@
 {
 	"dockerFile": "Dockerfile",
 	"remoteUser": "terraformer-dev",
-	"workspaceMount": "source=${localEnv:HOME}/Club/workspace-plotter,target=/home/terraformer-dev/workspace-plotter,type=bind",
+	"workspaceMount": "source=${localEnv:HOME}/workspace-plotter,target=/home/terraformer-dev/workspace-plotter,type=bind",
 	"workspaceFolder": "/home/terraformer-dev/workspace-plotter",
 	"runArgs": [
 		"--network=host",
