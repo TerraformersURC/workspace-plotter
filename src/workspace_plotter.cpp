@@ -142,4 +142,66 @@ KDL::Frame wspltr::getEndEffectorPose(const KDL::Chain& arm_chain,
 {
   return wspltr::getLinkFrames(arm_chain, joint_positions).back();
 }
+
+matplot::line_handle wspltr::plotArm(const KDL::Chain& arm_chain,
+                                     const KDL::JntArray& joint_positions,
+                                     const std::string& color)
+{
+  std::vector<double> frame_x_points {};
+  std::vector<double> frame_y_points {};
+  std::vector<double> frame_z_points {};
+
+  auto link_frames {wspltr::getLinkFrames(arm_chain, joint_positions)};
+
+  for (const auto& link_frame: link_frames) {
+    frame_x_points.push_back(link_frame.p[0]);
+    frame_y_points.push_back(link_frame.p[1]);
+    frame_z_points.push_back(link_frame.p[2]);
+  }
+
+  auto plot {matplot::plot3(frame_x_points, frame_y_points, frame_z_points,
+                                                                        "g-o")};
+  plot->line_width(3).color(color);
+
+  return plot;
+}
+
+void wspltr::showArm(const KDL::Chain& arm_chain,
+                     const KDL::JntArray& joint_positions)
+{
+  auto plot {wspltr::plotArm(arm_chain, joint_positions)};
+
+  matplot::xlim({-0.5, 0.5});
+  matplot::ylim({-0.5, 0.5});
+  matplot::zlim({0, 1});
+  matplot::grid(true);
+  matplot::xlabel("X Axis");
+  matplot::ylabel("Y Axis");
+  matplot::zlabel("Z Axis");
+
+  matplot::show();
+}
+
+void wspltr::showArm(const KDL::Chain& arm_chain,
+                     const KDL::JntArray& initial_joint_positions,
+                     const KDL::JntArray& final_joint_positions)
+{
+  auto plot1 {wspltr::plotArm(arm_chain, initial_joint_positions, "blue")};
+
+  matplot::hold(matplot::on);
+
+  auto plot2 {wspltr::plotArm(arm_chain, final_joint_positions, "red")};
+
+  matplot::xlim({-0.5, 0.5});
+  matplot::ylim({-0.5, 0.5});
+  matplot::zlim({0, 1});
+  matplot::grid(true);
+  matplot::xlabel("X Axis");
+  matplot::ylabel("Y Axis");
+  matplot::zlabel("Z Axis");
+
+  matplot::hold(matplot::off);
+
+  matplot::show();
+}
 }
