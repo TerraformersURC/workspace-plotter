@@ -143,6 +143,30 @@ KDL::Frame wspltr::getEndEffectorPose(const KDL::Chain& arm_chain,
   return wspltr::getLinkFrames(arm_chain, joint_positions).back();
 }
 
+KDL::JntArray wspltr::getJointPositions(const KDL::Chain& arm_chain,
+                                  const KDL::JntArray& initial_joint_positions,
+                                  const KDL::Frame& target_end_effector_pose,
+                                  float time_seconds)
+{
+  KDL::JntArray joint_positions(arm_chain.getNrOfJoints());
+
+  KDL::ChainFkSolverPos_recursive forward_pos_solver(arm_chain);
+  KDL::ChainIkSolverVel_pinv inverse_vel_solver(arm_chain);
+  KDL::ChainIkSolverPos_NR inverse_pos_solver(arm_chain, forward_pos_solver,
+                                              inverse_vel_solver, 100, 1e-6);
+  int ik_status {};
+
+  ik_status = inverse_pos_solver.CartToJnt(initial_joint_positions,
+                                           target_end_effector_pose,
+                                           joint_positions);
+
+  if (ik_status < 0) {
+    std::cerr << "IK solve failed!" << std::endl;
+  }
+
+  return joint_positions;
+}
+
 matplot::line_handle wspltr::plotArm(const KDL::Chain& arm_chain,
                                      const KDL::JntArray& joint_positions,
                                      const std::string& color)
