@@ -19,9 +19,14 @@ int main(int argc, char *argv[])
   target_pose.p[1] -= 0.1;
   target_pose.p[2] += 0.1;
 
-  auto final_pose {wspltr::getCartesianPose(parsed_chain, sample_joint_angles)};
+  auto final_joint_angles {wspltr::getJointPositions(parsed_chain,
+                                                     initial_joint_angles,
+                                                     target_pose)};
 
-  std::cout << final_pose << std::endl;
+  auto joints_limits {wspltr::jointLimitsFromYAML(argv[1])};
+
+  wspltr::plotWorkspace(parsed_chain, initial_joint_angles, joints_limits);
+  // wspltr::showArm(parsed_chain, initial_joint_angles, final_joint_angles);
 
   return 0;
 }
