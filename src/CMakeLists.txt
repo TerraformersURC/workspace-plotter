@@ -6,6 +6,7 @@ add_executable(workspace-plotter
 find_package(yaml-cpp REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(orocos_kdl REQUIRED)
+find_package(Matplot++ REQUIRED)
 
 target_include_directories(workspace-plotter PUBLIC
   ${CMAKE_SOURCE_DIR}/include
@@ -16,4 +17,5 @@ target_link_libraries(workspace-plotter PUBLIC
   # list of libraries
   yaml-cpp::yaml-cpp
   orocos-kdl
+  Matplot++::matplot
 )
