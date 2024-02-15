@@ -20,7 +20,8 @@ RUN apt-get update && apt-get install -y \
   libcppunit-dev \
   python3-pip \
   python3-numpy \
-  python3-matplotlib
+  python3-matplotlib \
+  gnuplot
 
 # Add a non-root user
 ARG USERNAME=terraformer-dev
