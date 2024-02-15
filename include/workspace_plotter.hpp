@@ -7,6 +7,8 @@
 
 #include <kdl/chain.hpp>
 #include <kdl/chainfksolverpos_recursive.hpp>
+#include <kdl/chainiksolverpos_nr.hpp>
+#include <kdl/chainiksolvervel_pinv.hpp>
 #include <kdl/frames_io.hpp>
 
 namespace wspltr
@@ -22,6 +24,11 @@ KDL::Frame getEndEffectorPose(const KDL::Chain& arm_chain,
 
 std::vector<KDL::Frame> getLinkFrames(const KDL::Chain& arm_chain,
                                       const KDL::JntArray& joint_positions);
+
+KDL::JntArray getJointPositions(const KDL::Chain& arm_chain,
+                                const KDL::JntArray& initial_joint_positions,
+                                const KDL::Frame& target_end_effector_pose,
+                                float time_seconds = 1.0);
 
 matplot::line_handle plotArm(const KDL::Chain& arm_chain,
                              const KDL::JntArray& joint_positions,
