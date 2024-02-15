@@ -7,27 +7,17 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  KDL::Chain parsed_chain {wspltr::parseYAML(argv[1])};
+  KDL::Chain parsed_chain {wspltr::chainFromYAML(argv[1])};
 
-  std::cout << "Number of joints in parsed chain: " <<
-                                      parsed_chain.getNrOfJoints() << std::endl;
+  KDL::JntArray initial_joint_angles {wspltr::homePositionFromYAML(argv[1])};
 
-  std::cout << "Number of links in parsed chain: " <<
-                                    parsed_chain.getNrOfSegments() << std::endl;
+  KDL::Frame initial_pose {wspltr::getEndEffectorPose(parsed_chain,
+                                                      initial_joint_angles)};
 
-  std::cout << "Getting cartesian pose for sample joint angles..." << std::endl;
-
-  std::cout << "Joint angles: " << std::endl;
-
-  KDL::JntArray sample_joint_angles {parsed_chain.getNrOfSegments()};
-  sample_joint_angles(0) = M_PI_2;
-  sample_joint_angles(1) = -M_PI_2;
-  sample_joint_angles(2) = M_PI_2;
-  sample_joint_angles(3) = -M_PI_2;
-  sample_joint_angles(4) = -M_PI_2;
-  sample_joint_angles(5) = 0;
-
-  std::cout << sample_joint_angles.data << std::endl;
+  KDL::Frame target_pose {initial_pose};
+  target_pose.p[0] += 0.1;
+  target_pose.p[1] -= 0.1;
+  target_pose.p[2] += 0.1;
 
   auto final_pose {wspltr::getCartesianPose(parsed_chain, sample_joint_angles)};
 
