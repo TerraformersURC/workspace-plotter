@@ -122,7 +122,7 @@ std::vector<KDL::Frame> wspltr::getLinkFrames(const KDL::Chain& arm_chain,
 
   for (int seg_num {0}; seg_num <= arm_chain.getNrOfSegments(); seg_num++) {
     KDL::Frame link_frame;
-  int fk_status {0};
+    int fk_status {0};
 
     fk_status = forward_solver.JntToCart(joint_positions, link_frame, seg_num);
 
