@@ -1,0 +1,36 @@
+dh_values:
+    link1:
+        r: 0.0
+        d: 0.15185
+        alpha: 1.5707
+        theta: 0.0
+
+    link2:
+        r: -0.24355
+        d: 0.0
+        alpha: 0.0
+        theta: 0.0
+
+    link3:
+        r: -0.2132
+        d: 0.0
+        alpha: 0.0
+        theta: 0.0
+
+home_position: [0, -1.5707, 1.5707]
+
+joint_limits:
+    joint1:
+        min: -6.2831
+        max: 6.2831
+
+    joint2:
+        min: -2.0944
+        max: 0.2618
+
+    joint3:
+        min: -1.5708
+        max: 0.5236
+
+
+
