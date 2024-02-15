@@ -9,7 +9,12 @@
 
 namespace wspltr
 {
-KDL::Chain parseYAML(char *yaml_filename);
+KDL::Chain chainFromYAML(char* yaml_filename);
+KDL::JntArray homePositionFromYAML(char* yaml_filename);
 
-KDL::Frame getCartesianPose(KDL::Chain &arm_chain, KDL::JntArray &joint_values);
+std::map<std::string, std::pair<double, double>> jointLimitsFromYAML(
+  char* yaml_filename);
+
+KDL::Frame getEndEffectorPose(const KDL::Chain& arm_chain,
+                              const KDL::JntArray& joint_positions);
 }
