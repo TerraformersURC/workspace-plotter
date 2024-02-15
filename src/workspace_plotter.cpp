@@ -43,19 +43,75 @@ KDL::Chain wspltr::chainFromYAML(char *yaml_filename)
   return parsed_chain;
 }
 
+KDL::JntArray wspltr::homePositionFromYAML(char *yaml_filename)
+{
+  KDL::JntArray parsed_position;
+
+  try {
+    YAML::Node arm_node {YAML::LoadFile(yaml_filename)};
+
+    std::vector<double> joint_positions {
+                           arm_node["home_position"].as<std::vector<double>>()};
+
+    parsed_position.resize(joint_positions.size());
+
+    int link_index {0};
+    for (auto joint_position: joint_positions) {
+      parsed_position(link_index) = joint_position;
+
       link_index++;
     }
   }
 
   catch(const YAML::BadFile& e) {
+    std::cerr << "Parsing the arm home position failed" << std::endl;
     std::cerr << e.msg << std::endl;
   }
 
   catch(const YAML::ParserException& e) {
+    std::cerr << "Parsing the arm home position failed" << std::endl;
     std::cerr << e.msg << std::endl;
   }
 
-  return parsed_chain;
+  std::cout << "Parsed the arm home position" << std::endl;
+  return parsed_position;
+}
+
+std::map<std::string, std::pair<double, double>> wspltr::jointLimitsFromYAML(
+  char* yaml_filename)
+{
+  std::map<std::string, std::pair<double, double>> joints_limits {};
+
+  try {
+    YAML::Node arm_node {YAML::LoadFile(yaml_filename)};
+    auto joint_limits_node {arm_node["joint_limits"]};
+
+    for (int joint_idx {1}; joint_idx <= joint_limits_node.size();
+                                                                  joint_idx++) {
+      std::string joint_name {"joint" + std::to_string(joint_idx)};
+      YAML::Node joint_node {joint_limits_node[joint_name]};
+
+      std::pair<double, double> joint_limits {-6.2831, 6.2831};
+
+      joint_limits.first = joint_node["min"].as<double>();
+      joint_limits.second = joint_node["max"].as<double>();
+
+      joints_limits[joint_name] = joint_limits;
+    }
+  }
+
+  catch(const YAML::BadFile& e) {
+    std::cerr << "Parsing the joint limits failed" << std::endl;
+    std::cerr << e.msg << std::endl;
+  }
+
+  catch(const YAML::ParserException& e) {
+    std::cerr << "Parsing the joint limits failed" << std::endl;
+    std::cerr << e.msg << std::endl;
+  }
+
+  std::cout << "Parsed the joint limits" << std::endl;
+  return joints_limits;
 }
 
 KDL::Frame wspltr::getCartesianPose(KDL::Chain &arm_chain, KDL::JntArray &joint_values)
