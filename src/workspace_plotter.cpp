@@ -114,19 +114,32 @@ std::map<std::string, std::pair<double, double>> wspltr::jointLimitsFromYAML(
   return joints_limits;
 }
 
-KDL::Frame wspltr::getCartesianPose(KDL::Chain &arm_chain, KDL::JntArray &joint_values)
+std::vector<KDL::Frame> wspltr::getLinkFrames(const KDL::Chain& arm_chain,
+                                           const KDL::JntArray& joint_positions)
 {
   KDL::ChainFkSolverPos_recursive forward_solver(arm_chain);
+  std::vector<KDL::Frame> link_frames {};
 
-  KDL::Frame cartesian_pose;
-
+  for (int seg_num {0}; seg_num <= arm_chain.getNrOfSegments(); seg_num++) {
+    KDL::Frame link_frame;
   int fk_status {0};
 
-  fk_status = forward_solver.JntToCart(joint_values, cartesian_pose, arm_chain.getNrOfSegments());
+    fk_status = forward_solver.JntToCart(joint_positions, link_frame, seg_num);
 
-  (fk_status >= 0) ?
-    std::cout << "FK success" << std::endl
-    : std::cout << "FK fail" << std::endl;
+    if (fk_status < 0) {
+      std::cerr << "FK at segment " << seg_num << " failed!" << std::endl;
+      return link_frames;
+    }
 
-  return cartesian_pose;
+    link_frames.push_back(link_frame);
+  }
+
+  return link_frames;
+}
+
+KDL::Frame wspltr::getEndEffectorPose(const KDL::Chain& arm_chain,
+                                      const KDL::JntArray& joint_positions)
+{
+  return wspltr::getLinkFrames(arm_chain, joint_positions).back();
+}
 }
