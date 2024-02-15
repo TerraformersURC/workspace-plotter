@@ -9,6 +9,7 @@
 		"--security-opt=seccomp:unconfined",
 		"--security-opt=apparmor:unconfined",
 		"--volume=/tmp/.X11-unix:/tmp/.X11-unix",
+		"--volume=/run/user:/run/user",
 		"--ipc=host"
 		// uncomment to use intel iGPU
 		// "--device=/dev/dri"
