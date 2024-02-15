@@ -1,0 +1,66 @@
+dh_values:
+    link1:
+        r: 0.0
+        d: 0.15185
+        alpha: 1.5707
+        theta: 0.0
+
+    link2:
+        r: -0.24355
+        d: 0.0
+        alpha: 0.0
+        theta: 0.0
+
+    link3:
+        r: -0.2132
+        d: 0.0
+        alpha: 0.0
+        theta: 0.0
+
+    link4:
+        r: 0.0
+        d: 0.13105
+        alpha: 1.5707
+        theta: 0.0
+
+    link5:
+        r: 0.0
+        d: 0.08535
+        alpha: -1.5707
+        theta: 0.0
+
+    link6:
+        r: 0.0
+        d: 0.0921
+        alpha: 0.0
+        theta: 0.0
+
+home_position: [0, -1.5707, 1.5707, -1.5707, -1.5707, 0]
+
+joint_limits:
+    joint1:
+        min: -6.2831
+        max: 6.2831
+
+    joint2:
+        min: -6.2831
+        max: 6.2831
+
+    joint3:
+        min: -3.1415
+        max: 3.1415
+
+    joint4:
+        min: -6.2831
+        max: 6.2831
+
+    joint5:
+        min: -6.2831
+        max: 6.2831
+
+    joint6:
+        min: -6.2831
+        max: 6.2831
+
+
+
