@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <random>
 
 #include <yaml-cpp/yaml.h>
 #include <matplot/matplot.h>
@@ -38,4 +39,18 @@ void showArm(const KDL::Chain& arm_chain, const KDL::JntArray& joint_positions);
 void showArm(const KDL::Chain& arm_chain,
              const KDL::JntArray& initial_joint_positions,
              const KDL::JntArray& final_joint_positions);
+
+void plotWorkspace(const KDL::Chain& arm_chain,
+                   const KDL::JntArray& initial_joint_angles,
+                   const std::map<std::string,
+                                  std::pair<double, double>>& joints_limits);
+void getRandomJointPositions(const std::pair<double, double>& joint_limits,
+                             int size,
+                             const std::vector<double>& random_joint_positions);
+
+void randomizeJointPositions(int start_joint,
+                             KDL::JntArray& joint_positions,
+                             const std::map<std::string,
+                                std::pair<double, double>>& joints_limits,
+                             std::mt19937& random_number_generator);
 }
