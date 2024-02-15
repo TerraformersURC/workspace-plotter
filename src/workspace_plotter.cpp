@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "workspace_plotter.hpp"
 
 KDL::Chain wspltr::chainFromYAML(char *yaml_filename)
