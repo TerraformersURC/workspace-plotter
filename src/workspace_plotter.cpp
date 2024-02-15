@@ -228,4 +228,79 @@ void wspltr::showArm(const KDL::Chain& arm_chain,
 
   matplot::show();
 }
+
+void wspltr::randomizeJointPositions(int start_joint,
+                                     KDL::JntArray& joint_positions,
+                                     const std::map<std::string,
+                                      std::pair<double, double>>& joints_limits,
+                                     std::mt19937& random_number_generator)
+{
+
+  for (int joint_idx {start_joint}; joint_idx < joint_positions.rows();
+                                                                  joint_idx++) {
+
+    auto joint_limits {joints_limits.at("joint" + std::to_string(joint_idx + 1))};
+
+    std::uniform_real_distribution<double> joint_positions_distribution(
+                                       joint_limits.first, joint_limits.second);
+
+    joint_positions(joint_idx) = joint_positions_distribution(
+                                                     random_number_generator);
+  }
+}
+
+// Using Monte Carlo method
+void wspltr::plotWorkspace(const KDL::Chain& arm_chain,
+                           const KDL::JntArray& initial_joint_angles,
+                           const std::map<std::string,
+                                   std::pair<double, double>>& joints_limits)
+{
+  std::vector<double> x_points {};
+  std::vector<double> y_points {};
+  std::vector<double> z_points {};
+  std::vector<double> marker_sizes {};
+
+  KDL::JntArray joint_positions {initial_joint_angles};
+
+  std::random_device random_device;
+  std::mt19937 random_position_generator(random_device());
+
+  int iterations_number = 360 * 100;
+
+  for (int iteration {0}; iteration <= iterations_number; iteration++) {
+
+    wspltr::randomizeJointPositions(0, joint_positions, joints_limits,
+                                    random_position_generator);
+
+    auto endeff_pose {wspltr::getEndEffectorPose(arm_chain, joint_positions)};
+
+    x_points.push_back(endeff_pose.p[0]);
+    y_points.push_back(endeff_pose.p[1]);
+    z_points.push_back(endeff_pose.p[2]);
+
+    marker_sizes.push_back(1.0);
+
+    float progress {((float)iteration / iterations_number) * 100};
+    std::cout << "Progress: " << progress << " %" << " \r";
+    std::cout.flush();
+  }
+
+  auto arm_plot {wspltr::plotArm(arm_chain, initial_joint_angles)};
+
+  matplot::hold(matplot::on);
+
+  auto workspace_plot {matplot::scatter3(x_points, y_points, z_points,
+                                                                 marker_sizes)};
+
+  matplot::xlim({-0.5, 0.5});
+  matplot::ylim({-0.5, 0.5});
+  matplot::zlim({-0.5, 0.5});
+  matplot::grid(true);
+  matplot::xlabel("X Axis");
+  matplot::ylabel("Y Axis");
+  matplot::zlabel("Z Axis");
+
+  matplot::hold(matplot::off);
+
+  matplot::show();
 }
