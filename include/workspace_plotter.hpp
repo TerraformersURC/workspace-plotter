@@ -17,4 +17,7 @@ std::map<std::string, std::pair<double, double>> jointLimitsFromYAML(
 
 KDL::Frame getEndEffectorPose(const KDL::Chain& arm_chain,
                               const KDL::JntArray& joint_positions);
+
+std::vector<KDL::Frame> getLinkFrames(const KDL::Chain& arm_chain,
+                                      const KDL::JntArray& joint_positions);
 }
