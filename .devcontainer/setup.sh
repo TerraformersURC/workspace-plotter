@@ -19,3 +19,11 @@ cmake [-DYAML_BUILD_SHARED_LIBS=ON] .. && make
 sudo make install
 
 cd ~/workspace-plotter && rm -rf yaml-cpp
+
+# Install Matplot++ library ----------------------------------------------------
+cd ~/workspace-plotter && git clone https://github.com/alandefreitas/matplotplusplus.git
+cd matplotplusplus && cmake --preset=system && cmake --build --preset=system
+
+sudo cmake --install build/system
+
+cd ~/workspace-plotter && rm -rf matplotplusplus
